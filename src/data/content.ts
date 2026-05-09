@@ -1,10 +1,10 @@
 export const siteContent = {
   meta: {
-    title: "PixelPinch StoreFront",
-    description: "Welcome to the Pixel Pinch storefront",
+    title: "PixelSqueez StoreFront",
+    description: "Welcome to the Pixel Squeez storefront",
   },
   navbar: {
-    logo: "PixelPinch",
+    logo: "PixelSqueez",
     links: [
       { label: "Home", href: "/" },
       { label: "Products", href: "/products" },
@@ -12,8 +12,10 @@ export const siteContent = {
     cartButton: "Cart (0)",
   },
   footer: {
-    brand: "PixelPinch",
-    copyright: "PixelPinch StoreFront. All rights reserved.",
+    brand: "PixelSqueez",
+    copyright: "PixelSqueez StoreFront. All rights reserved.",
+    built_by: "Designed and Built with ❤️ by Debayan Sen.",
+    buildByLink: "https://www.debayansen.com",
     links: [
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },
@@ -25,11 +27,11 @@ export const siteContent = {
       title: "Compress your images.",
       highlight: "But keep the Quality.",
       descriptionPre:
-        "PixelPinch is a powerful service designed to significantly reduce your image file sizes. Convert and compress your files into optimized formats like",
+        "PixelSqueez is a powerful service designed to significantly reduce your image file sizes. Convert and compress your files into optimized formats like",
       formats: ["JPEG", "WEBP", "AVIF", "GIF"],
     },
     features: {
-      title: "Why use PixelPinch?",
+      title: "Why use PixelSqueez?",
       items: [
         {
           icon: "⚡",
@@ -48,6 +50,12 @@ export const siteContent = {
           textPre: "Boost your website's loading speed, performance, and SEO.",
           highlight: "",
           textPost: "",
+        },
+        {
+          icon: "🖼️",
+          textPre: "Automatically generate",
+          highlight: "smart thumbnails",
+          textPost: "instantly upon upload.",
         },
       ],
     },
@@ -89,7 +97,7 @@ export const siteContent = {
       ],
     },
     cta: {
-      title: "Ready to pinch those pixels?",
+      title: "Ready to squeez those pixels?",
       description:
         "Join thousands of creators who are already serving lightning-fast images on their websites.",
       buttonText: "Start Compressing Now",

@@ -1,6 +1,6 @@
-# PixelPinch StoreFront 🖼️🤏
+# PixelSqueez StoreFront 🖼️🤏
 
-Welcome to the **PixelPinch StoreFront**! This is a modern, fast, and highly responsive landing page and storefront for an image compression service.
+Welcome to the **PixelSqueez StoreFront**! This is a modern, fast, and highly responsive landing page and storefront for an image compression service.
 
 ## ✨ Features
 

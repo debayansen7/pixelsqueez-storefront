@@ -5,18 +5,19 @@ import { siteContent } from "../data/content";
 
 export default function ImageCompareSlider() {
   const [position, setPosition] = useState(50);
+  const { image, label } = siteContent.home.slider.compressed;
 
   return (
     <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden group select-none shadow-xl border border-gray-100">
       {/* After Image (Compressed) - Background */}
       <div className="absolute inset-0 bg-gray-100">
         <img
-          src={siteContent.home.slider.compressed.image}
+          src={image}
           alt="Compressed Image"
           className="w-full h-full object-cover"
         />
         <div className="absolute top-4 right-4 bg-black/70 text-white text-xs font-bold px-3 py-1.5 rounded-full backdrop-blur-sm shadow-sm">
-          {siteContent.home.slider.compressed.label}
+          {label}
         </div>
       </div>
 
