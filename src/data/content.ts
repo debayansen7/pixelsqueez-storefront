@@ -7,7 +7,8 @@ export const siteContent = {
     logo: "PixelSqueez",
     links: [
       { label: "Home", href: "/" },
-      { label: "Products", href: "/products" },
+      { label: "About", href: "/about" },
+      { label: "Contact", href: "/contact" },
     ],
     cartButton: "Cart (0)",
   },
@@ -19,7 +20,6 @@ export const siteContent = {
     links: [
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },
-      { label: "Privacy Policy", href: "/privacy" },
     ],
   },
   home: {
@@ -101,6 +101,69 @@ export const siteContent = {
       description:
         "Join thousands of creators who are already serving lightning-fast images on their websites.",
       buttonText: "Start Compressing Now",
+      buttonLink: "/convertion",
+    },
+  },
+  about: {
+    hero: {
+      title: "About",
+      highlight: "PixelSqueez",
+      description:
+        "We're on a mission to make the web faster — one image at a time. PixelSqueez is a cloud-powered image optimization service built for developers, designers, and content creators who care about performance without sacrificing visual quality.",
+    },
+    mission: {
+      title: "Our Mission",
+      description:
+        "Images account for nearly 50% of all web page weight. Slow-loading images frustrate users, hurt SEO rankings, and increase bounce rates. PixelSqueez exists to solve this — providing instant, intelligent compression that dramatically reduces file sizes while keeping your visuals pixel-perfect.",
+    },
+    stats: [
+      { value: "80%", label: "Avg. Size Reduction" },
+      { value: "50ms", label: "Avg. Processing Time" },
+      { value: "10K+", label: "Images Optimized" },
+      { value: "99.9%", label: "Uptime Guarantee" },
+    ],
+    features: [
+      {
+        icon: "🧠",
+        title: "Smart Algorithms",
+        description:
+          "Our compression engine analyzes each image individually, choosing the optimal strategy for maximum reduction with zero perceived quality loss.",
+      },
+      {
+        icon: "⚡",
+        title: "Lightning Fast",
+        description:
+          "Powered by a high-performance backend deployed on cloud infrastructure, your images are processed and returned in milliseconds.",
+      },
+      {
+        icon: "🔒",
+        title: "Privacy First",
+        description:
+          "Your images are processed in-memory and never stored on our servers. Once compressed, the original is immediately discarded.",
+      },
+      {
+        icon: "🌐",
+        title: "Modern Formats",
+        description:
+          "Convert to next-gen formats like WebP and AVIF that deliver superior compression ratios supported by all modern browsers.",
+      },
+    ],
+    techStack: {
+      title: "Built With Modern Tech",
+      description:
+        "PixelSqueez is powered by a robust, production-grade technology stack designed for speed, reliability, and scalability.",
+      items: [
+        { name: "Next.js", role: "Frontend Framework" },
+        { name: "Node.js", role: "Backend Runtime" },
+        { name: "Sharp", role: "Image Processing Engine" },
+        { name: "Render", role: "Cloud Deployment" },
+      ],
+    },
+    cta: {
+      title: "Ready to optimize your images?",
+      description:
+        "Try PixelSqueez now — no sign-up required. Just upload, compress, and download.",
+      buttonText: "Start Compressing",
       buttonLink: "/convertion",
     },
   },

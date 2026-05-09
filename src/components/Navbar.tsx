@@ -17,7 +17,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Nav Links */}
-          {/* <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-8">
             {siteContent.navbar.links.map((link, idx) => (
               <Link
                 key={idx}
@@ -30,7 +30,7 @@ export default function Navbar() {
           </div>
 
           
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <button className="text-gray-900 bg-white/50 hover:bg-white/80 px-4 py-2 rounded-full font-semibold transition-colors shadow-sm border border-white/60">
               {siteContent.navbar.cartButton}
             </button>
