@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, Suspense } from "react";
 import Image from "next/image";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Spinner from "../../components/Spinner";
 import { API_ENDPOINTS } from "../../data/api";
 
-export default function ImageConversionPage() {
+function ImageConversionContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -231,5 +231,19 @@ export default function ImageConversionPage() {
         )}
       </div>
     </main>
+  );
+}
+
+export default function ImageConversionPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center py-20">
+          <Spinner className="animate-spin h-8 w-8 text-indigo-600" />
+        </div>
+      }
+    >
+      <ImageConversionContent />
+    </Suspense>
   );
 }
