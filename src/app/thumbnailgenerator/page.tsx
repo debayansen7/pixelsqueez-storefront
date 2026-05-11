@@ -2,19 +2,16 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Spinner from "../../components/Spinner";
 import { API_ENDPOINTS } from "../../data/api";
 
-export default function ImageConversionPage() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
+export default function ThumbnailGeneratorPage() {
   const [file, setFile] = useState<File | null>(null);
-  const [format, setFormat] = useState(searchParams?.get("format") || "webp");
-  const [isConverting, setIsConverting] = useState(false);
-  const [convertedUrl, setConvertedUrl] = useState<string | null>(null);
+  const [width, setWidth] = useState("250");
+  const [height, setHeight] = useState("250");
+  const [fit, setFit] = useState("cover");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -23,7 +20,7 @@ export default function ImageConversionPage() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
-      setConvertedUrl(null);
+      setThumbnailUrl(null);
       setErrorMsg(null);
     }
   };
@@ -33,43 +30,36 @@ export default function ImageConversionPage() {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       setFile(e.dataTransfer.files[0]);
-      setConvertedUrl(null);
+      setThumbnailUrl(null);
       setErrorMsg(null);
     }
-  };
-
-  // Update format and sync with URL
-  const handleFormatChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newFormat = e.target.value;
-    setFormat(newFormat);
-    const params = new URLSearchParams(searchParams?.toString() || "");
-    params.set("format", newFormat);
-    router.replace(`${pathname}?${params.toString()}`);
   };
 
   // Reset the state to upload a new file
   const handleClear = () => {
     setFile(null);
-    setConvertedUrl(null);
+    setThumbnailUrl(null);
     setErrorMsg(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
   };
 
-  // Generate converted image using an actual API call
-  const handleConvert = async () => {
+  // Generate thumbnail using an actual API call
+  const handleGenerate = async () => {
     if (!file) return;
-    setIsConverting(true);
+    setIsGenerating(true);
     setErrorMsg(null);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("format", format);
+      formData.append("width", width);
+      formData.append("height", height);
+      formData.append("fit", fit);
 
       // Update the URL to point to your actual backend API fetch
-      const response = await fetch(API_ENDPOINTS.CONVERT, {
+      const response = await fetch(API_ENDPOINTS.THUMBNAIL, {
         method: "POST",
         body: formData,
       });
@@ -79,15 +69,15 @@ export default function ImageConversionPage() {
       }
 
       const blob = await response.blob();
-      const convertedBlobUrl = URL.createObjectURL(blob);
-      setConvertedUrl(convertedBlobUrl);
+      const generatedBlobUrl = URL.createObjectURL(blob);
+      setThumbnailUrl(generatedBlobUrl);
     } catch (error: any) {
-      console.error("Image conversion failed:", error);
+      console.error("Thumbnail generation failed:", error);
       setErrorMsg(
-        `Failed to convert image. ${error?.message || ""}. Please try again.`,
+        `Failed to generate thumbnail. ${error?.message || ""}. Please try again.`,
       );
     } finally {
-      setIsConverting(false);
+      setIsGenerating(false);
     }
   };
 
@@ -96,10 +86,10 @@ export default function ImageConversionPage() {
       <div className="bg-white/60 backdrop-blur-md rounded-3xl p-8 md:p-12 shadow-sm border border-white/50">
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
-            Image Converter
+            Thumbnail Generator
           </h1>
           <p className="text-lg text-gray-700 font-medium">
-            Easily convert your images between formats like WEBP, PNG, and JPEG.
+            Create perfectly sized, high-quality thumbnails in seconds.
           </p>
         </div>
 
@@ -136,32 +126,55 @@ export default function ImageConversionPage() {
             {file ? file.name : "Drag & Drop an image here"}
           </h3>
           <p className="text-gray-500 mb-6">
-            {file ? "Ready to convert" : "or click to browse your files"}
+            {file ? "Ready to generate" : "or click to browse your files"}
           </p>
         </div>
 
         {/* Settings & Action Area */}
         <div className="flex flex-col md:flex-row gap-6 items-end justify-between bg-white/40 p-6 rounded-2xl border border-white/50 shadow-sm mb-8">
           <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
-            <div className="flex flex-col gap-1 w-full sm:w-48">
+            <div className="flex flex-col gap-1 w-full sm:w-24">
               <label className="text-sm font-semibold text-gray-700">
-                Convert To
+                Width (px)
+              </label>
+              <input
+                type="number"
+                value={width}
+                onChange={(e) => setWidth(e.target.value)}
+                className="bg-white/80 border border-gray-200 text-gray-800 py-2.5 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full font-medium"
+                placeholder="250"
+              />
+            </div>
+            <div className="flex flex-col gap-1 w-full sm:w-24">
+              <label className="text-sm font-semibold text-gray-700">
+                Height (px)
+              </label>
+              <input
+                type="number"
+                value={height}
+                onChange={(e) => setHeight(e.target.value)}
+                className="bg-white/80 border border-gray-200 text-gray-800 py-2.5 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full font-medium"
+                placeholder="250"
+              />
+            </div>
+            <div className="flex flex-col gap-1 w-full sm:w-36">
+              <label className="text-sm font-semibold text-gray-700">
+                Fit Strategy
               </label>
               <select
-                value={format}
-                onChange={handleFormatChange}
+                value={fit}
+                onChange={(e) => setFit(e.target.value)}
                 className="bg-white/80 border border-gray-200 text-gray-800 py-2.5 px-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full font-medium"
               >
-                <option value="webp">WEBP</option>
-                <option value="png">PNG</option>
-                <option value="jpeg">JPEG</option>
-                <option value="gif">GIF</option>
+                <option value="cover">Cover</option>
+                <option value="contain">Contain</option>
+                <option value="fill">Fill</option>
               </select>
             </div>
           </div>
 
           <div className="flex w-full md:w-auto gap-3">
-            {(convertedUrl || errorMsg || file) && (
+            {(thumbnailUrl || errorMsg || file) && (
               <button
                 onClick={handleClear}
                 className="flex-1 md:flex-none bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-xl shadow-lg transition-colors"
@@ -170,39 +183,46 @@ export default function ImageConversionPage() {
               </button>
             )}
             <button
-              onClick={handleConvert}
-              disabled={!file || isConverting}
+              onClick={handleGenerate}
+              disabled={!file || isGenerating}
               className="flex-1 md:flex-none bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-colors flex items-center justify-center"
             >
-              {isConverting ? (
+              {isGenerating ? (
                 <>
                   <Spinner className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />{" "}
-                  Converting...
+                  Generating...
                 </>
               ) : (
-                "Convert"
+                "Generate"
               )}
             </button>
           </div>
         </div>
 
         {/* Result Area */}
-        {convertedUrl && (
+        {thumbnailUrl && (
           <div className="flex flex-col items-center justify-center bg-white/40 p-8 rounded-2xl border border-white/50 shadow-sm animate-in fade-in zoom-in duration-300">
             <h3 className="text-xl font-bold text-gray-900 mb-6">
-              Your Converted Image
+              Your Thumbnail
             </h3>
-            <div className="relative border-4 border-white shadow-xl rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center mb-6 max-w-full">
+            <div
+              className="relative border-4 border-white shadow-xl rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center mb-6"
+              style={{
+                width: `${width}px`,
+                height: `${height}px`,
+                maxWidth: "100%",
+              }}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={convertedUrl}
-                alt="Converted Image"
-                className="max-w-full h-auto object-contain"
+                src={thumbnailUrl}
+                alt="Generated Thumbnail"
+                className={`w-full h-full object-${fit}`}
               />
             </div>
             <a
-              href={convertedUrl}
-              download={`converted.${format}`}
+              href={thumbnailUrl}
+              download={`thumbnail-${width}x${height}.png`}
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition-colors flex items-center gap-2"
             >
               <svg
@@ -218,7 +238,7 @@ export default function ImageConversionPage() {
                   d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                 />
               </svg>
-              Download Image
+              Download Thumbnail
             </a>
           </div>
         )}

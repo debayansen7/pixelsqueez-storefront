@@ -8,6 +8,8 @@ export const siteContent = {
     links: [
       { label: "Home", href: "/" },
       { label: "About", href: "/about" },
+      { label: "Image Convertion", href: "/convertion" },
+      { label: "Thumbnail Generator", href: "/thumbnailgenerator" },
       { label: "Contact", href: "/contact" },
     ],
     cartButton: "Cart (0)",
